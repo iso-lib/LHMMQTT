@@ -14,6 +14,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/> <!-- StartupCheckBox -->
                         <RowDefinition Height="Auto"/> <!-- TrayIconCheckBox -->
+                        <RowDefinition Height="Auto"/> <!-- LogToFileCheckBox -->
                         <RowDefinition Height="Auto"/> <!-- Service Status Label + Indicator -->
                         <RowDefinition Height="Auto"/> <!-- Update Interval Label + TextBox -->
                         <RowDefinition Height="*"/>    <!-- Spacer for buttons at bottom -->
@@ -22,24 +23,24 @@
                         <RowDefinition Height="Auto"/> <!-- SaveSettingsButton -->
                     </Grid.RowDefinitions>
 
-                    <CheckBox x:Name="StartupCheckBox" Grid.Row="0" Content="开机启动" Margin="5"/>
-                    <CheckBox x:Name="TrayIconCheckBox" Grid.Row="1" Content="最小化到托盘" Margin="5"/>
+                    <CheckBox x:Name="StartupCheckBox" Grid.Row="0" Content="开机自启动" Checked="StartupCheckBox_Changed" Unchecked="StartupCheckBox_Changed" Margin="0,5,0,0"/>
+                    <CheckBox x:Name="TrayIconCheckBox" Grid.Row="1" Content="最小化到托盘" Checked="TrayIconCheckBox_Changed" Unchecked="TrayIconCheckBox_Changed" Margin="0,5,0,0"/>
+                    <CheckBox x:Name="LogToFileCheckBox" Grid.Row="2" Content="启用日志文件输出" Margin="0,5,0,0"/>
 
-
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="5">
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="5">
                         <TextBlock Text="更新间隔 (秒):" VerticalAlignment="Center"/>
                         <TextBox x:Name="UpdateIntervalTextBox" Width="50" Margin="5,0,0,0" VerticalAlignment="Center"/>
                     </StackPanel>
 
-                    <Button x:Name="SaveSettingsButton" Grid.Row="3" Content="保存常规设置" HorizontalAlignment="Right" Margin="5" Padding="10,5,10,5" Click="SaveSettingsButton_Click"/>
+                    <Button x:Name="SaveSettingsButton" Grid.Row="4" Content="保存常规设置" HorizontalAlignment="Right" Margin="5" Padding="10,5,10,5" Click="SaveSettingsButton_Click"/>
  
-                    <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="5">
+                    <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="5">
                         <TextBlock Text="服务状态:" VerticalAlignment="Center"/>
                         <TextBlock x:Name="ServiceStatusIndicator" FontWeight="Bold" VerticalAlignment="Center" Margin="5,0,0,0"/>
                     </StackPanel>
 
-                    <Button x:Name="StartMqttServiceButton" Grid.Row="6" Content="启动LHMMQTT服务" Margin="5" Padding="10,5,10,5" Click="StartStopMqttServiceButton_Click"/>
-                    <Button x:Name="StopMqttServiceButton" Grid.Row="7" Content="停止LHMMQTT服务" Margin="5" Padding="10,5,10,5" Click="StopMqttServiceButton_Click"/>
+                    <Button x:Name="StartMqttServiceButton" Grid.Row="7" Content="启动LHMMQTT服务" Margin="5" Padding="10,5,10,5" Click="StartStopMqttServiceButton_Click"/>
+                    <Button x:Name="StopMqttServiceButton" Grid.Row="8" Content="停止LHMMQTT服务" Margin="5" Padding="10,5,10,5" Click="StopMqttServiceButton_Click"/>
                     
                     
                 </Grid>

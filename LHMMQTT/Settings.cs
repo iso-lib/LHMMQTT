@@ -61,6 +61,7 @@ namespace LHMMQTT {
     {
         public bool Startup { get; set; } // For "开机启动"
         public bool TrayIcon { get; set; } // For "最小化到托盘"
+        public bool LogToFile { get; set; } = false; // Added for "是否启用输出到日志文件"
     }
 
     public static class Settings

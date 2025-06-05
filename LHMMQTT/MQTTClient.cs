@@ -112,6 +112,7 @@ namespace LHMMQTT {
                 return;
             }
             
+            Log.Information($"Publishing MQTT message to topic '{topic}' with payload '{payload}'.");
             await _client.PublishAsync(topic, payload, qos);
         }
     }

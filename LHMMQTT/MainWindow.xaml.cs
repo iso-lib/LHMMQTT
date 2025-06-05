@@ -450,6 +450,7 @@ namespace LHMMQTT {
                 }
                 StartupCheckBox.IsChecked = Settings.Current?.General?.Startup ?? false;
                 TrayIconCheckBox.IsChecked = Settings.Current?.General?.TrayIcon ?? false;
+                LogToFileCheckBox.IsChecked = Settings.Current?.General?.LogToFile;
 
             } else {
                 System.Windows.MessageBox.Show("无法加载配置文件 config.yaml。请确保文件存在且格式正确。", "配置错误", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -485,6 +486,7 @@ namespace LHMMQTT {
             }
             Settings.Current.General.Startup = StartupCheckBox.IsChecked ?? false;
             Settings.Current.General.TrayIcon = TrayIconCheckBox.IsChecked ?? false;
+            Settings.Current.General.LogToFile = LogToFileCheckBox.IsChecked ?? false;
 
             SaveConfiguration();
             System.Windows.MessageBox.Show("常规设置已保存", "保存成功", MessageBoxButton.OK, MessageBoxImage.Information);

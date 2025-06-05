@@ -62,7 +62,7 @@ namespace LHMMQTT {
         }
 
         public async Task SetValue(MQTTClient client, dynamic value) {
-            Log.Information($"Set sensor '{Name}' to value '{String.Format(DeviceClass.GetValueFormat(), value)}'");
+            // Log.Information($"Set sensor '{Name}' to value '{String.Format(DeviceClass.GetValueFormat(), value)}'");
             await client.Publish(StateTopic, String.Format(DeviceClass.GetValueFormat(), value), QualityOfService.AtLeastOnceDelivery);
         }
 
