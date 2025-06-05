@@ -1,0 +1,16 @@
+﻿AppSettings:
+  MQTT:
+    Hostname: "127.0.0.1"
+    Port: 1883
+    Username: ""
+    Password: ""
+  Updates:
+    Delay: 10
+  Sensors:
+    CPU: true
+    GPU: true
+    Memory: false
+    Motherboard: false
+    Controller: false
+    Networking: false
+    Storage: false
