@@ -1,9 +1,9 @@
 ﻿AppSettings:
   MQTT:
-    Hostname: "127.0.0.1"
+    Hostname: 127.0.0.1
     Port: 1883
-    Username: ""
-    Password: ""
+    Username: ''
+    Password: ''
   Updates:
     Delay: 10
   Sensors:
@@ -14,3 +14,7 @@
     Controller: false
     Networking: false
     Storage: false
+  General:
+    Startup: false
+    TrayIcon: false
+    LogToFile: false
