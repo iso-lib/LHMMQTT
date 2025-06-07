@@ -411,7 +411,7 @@ namespace LHMMQTT {
                 _notifyIcon.Dispose();
                 _notifyIcon = null;
             }
-            
+
             if (_systemMenuHandle != IntPtr.Zero)
             {
                 DestroyMenu(_systemMenuHandle);
@@ -537,7 +537,7 @@ namespace LHMMQTT {
         private void LoadStartupSetting() {
             RegistryKey? rk = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", false);
             if (rk != null) {
-                StartupCheckBox.IsChecked = (rk.GetValue(System.AppDomain.CurrentDomain.FriendlyName) != null);
+                StartupCheckBox.IsChecked = (rk.GetValue("LHMMQTT") != null);
                 rk.Close();
             }
         }
@@ -549,11 +549,17 @@ namespace LHMMQTT {
             {
                 if (StartupCheckBox.IsChecked == true)
                 {
-                    rk.SetValue(System.AppDomain.CurrentDomain.FriendlyName, System.Reflection.Assembly.GetExecutingAssembly().Location);
+                    string exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                    // 确保使用 .exe 文件路径
+                    if (exePath.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
+                    {
+                        exePath = Path.ChangeExtension(exePath, ".exe");
+                    }
+                    rk.SetValue("LHMMQTT", exePath);
                 }
                 else
                 {
-                    rk.DeleteValue(System.AppDomain.CurrentDomain.FriendlyName, false);
+                    rk.DeleteValue("LHMMQTT", false);
                 }
                 rk.Close();
             }

@@ -130,10 +130,10 @@ namespace LHMMQTT {
             // Iterate over hardware sensors and initialize them
             if (_computer != null) // Add null check for _computer
             {
-                foreach (IHardware hdw in _computer.Hardware) {
-                    foreach (ISensor hdwSensor in hdw.Sensors) {
+            foreach (IHardware hdw in _computer.Hardware) {
+                foreach (ISensor hdwSensor in hdw.Sensors) {
                         Sensor sensor = new Sensor(hdw, hdwSensor, _haDevice!);
-                        await sensor.Configure(client);
+                    await sensor.Configure(client);
                         HaSensors?.Add(sensor);
                     }
                 }
@@ -152,8 +152,8 @@ namespace LHMMQTT {
             // Get updated sensors
             if (_computer != null)
             {
-                _computer.Accept(new UpdateVisitor());
-                return _computer.Hardware;
+            _computer.Accept(new UpdateVisitor());
+            return _computer.Hardware;
             }
             else
             {
@@ -171,7 +171,7 @@ namespace LHMMQTT {
             
             if (_computer != null) // Explicit null check for CS8602 on line 162
             {
-                _computer.Close(); // Close existing instance if open
+            _computer.Close(); // Close existing instance if open
             }
             _computer = new Computer {
                 IsCpuEnabled = Settings.Current.Sensors.CPU,
