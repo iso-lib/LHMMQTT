@@ -13,6 +13,7 @@ using System.Diagnostics; // Required for Process.Start
 using System.Windows.Threading; // Required for DispatcherTimer
 using System.Runtime.InteropServices; // Required for DllImport
 using System.Windows.Interop; // Required for WindowInteropHelper
+using System.Net.NetworkInformation; // 添加命名空间
 
 namespace LHMMQTT {
     public partial class MainWindow : Window {
@@ -47,10 +48,16 @@ namespace LHMMQTT {
         private IntPtr _windowHandle;
         private IntPtr _systemMenuHandle;
 
+        private const int MaxMqttRestartRetries = 3; // 最大重试次数
+        private const int MqttRestartRetryDelayMs = 5000; // 每次重试间隔（毫秒）
+
         public MainWindow() {
             InitializeComponent();
             LoadSettings();
             LoadStartupSetting();
+
+            // 注册网络可用性事件
+            NetworkChange.NetworkAvailabilityChanged += OnNetworkAvailabilityChanged;
 
             // 初始化冷却计时器
             InitializeCooldownTimer();
@@ -627,6 +634,55 @@ namespace LHMMQTT {
                     DisableCloseButton(); // 确保关闭按钮保持禁用状态
                 }
             }
+        }
+
+        // 在窗口关闭时注销事件，防止内存泄漏
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            NetworkChange.NetworkAvailabilityChanged -= OnNetworkAvailabilityChanged;
+        }
+
+        // 网络可用性事件处理方法
+        private async void OnNetworkAvailabilityChanged(object? sender, NetworkAvailabilityEventArgs e)
+        {
+            if (e.IsAvailable)
+            {
+                Log.Information("网络连接已恢复");
+                await RestartMqttServiceWithRetryAsync();
+            }
+        }
+
+        private async Task RestartMqttServiceWithRetryAsync()
+        {
+            for (int attempt = 1; attempt <= MaxMqttRestartRetries; attempt++)
+            {
+                try
+                {
+                    if (MqttUpdateService.IsServiceRunning())
+                    {
+                        await MqttUpdateService.StopServiceAsync();
+                    }
+                    _hardwareDevice?.Dispose();
+                    _hardwareDevice = new Device();
+                    bool started = await MqttUpdateService.StartService(_hardwareDevice);
+                    if (started)
+                    {
+                        Log.Information($"MQTT 服务重启成功（第 {attempt} 次尝试）");
+                        return;
+                    }
+                    else
+                    {
+                        Log.Warning($"MQTT 服务重启失败（第 {attempt} 次尝试），将在 {MqttRestartRetryDelayMs / 1000} 秒后重试...");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, $"MQTT 服务重启异常（第 {attempt} 次尝试）");
+                }
+                await Task.Delay(MqttRestartRetryDelayMs);
+            }
+            Log.Error($"MQTT 服务重启失败，已达到最大重试次数（{MaxMqttRestartRetries}）");
         }
     }
 }
