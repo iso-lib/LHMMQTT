@@ -3,6 +3,7 @@
 ## 项目简介
 
 LHMMQTT 是一个专为 Windows 操作系统设计的轻量级工具，用于实时监控您的计算机硬件状态（如 CPU 温度、内存使用率、GPU 负载等），并通过 MQTT 协议将这些数据上报到指定的 MQTT 代理。它旨在与 Home Assistant 无缝集成，但也可用于任何支持 MQTT 的系统。
+
 ![alt text](LHMMQTT/Resources/snapshot.png)
 **特别注明：** 本项目基于 [@BradSimard/LHMMQTT](https://github.com/BradSimard/LHMMQTT) 项目进行开发，并在其基础上添加了直观的可视化操作 UI，提升了用户体验和配置便利性。
 基于MICROSOFT .NET 8.0框架，使用前请安装8.0运行时，已安装可忽略，点击这里下载安装.NET 8.0框架[x86](https://dotnet.microsoft.com/zh-cn/download/dotnet/thank-you/runtime-desktop-8.0.16-windows-x86-installer)  ,[x64](https://dotnet.microsoft.com/zh-cn/download/dotnet/thank-you/runtime-desktop-8.0.16-windows-x64-installer)
